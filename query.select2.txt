@@ -1,0 +1,56 @@
+GROUP BY 
+
+SELECT count(id), year (`enrolment_date`) FROM `students` GROUP BY year(`enrolment_date`) 
+
+SELECT count(id), office_address FROM `teachers` group by `office_address`
+
+SELECT exam_id, avg(`vote`) FROM `exam_student` GROUP by `exam_id`
+
+SELECT count(id),`department_id` FROM `degrees` GROUP BY`department_id`
+
+
+JOIN
+
+SELECT *
+FROM `students` 
+INNER JOIN degrees
+ON degrees.id = students.degree_id 
+WHERE degrees.id = 3
+
+
+SELECT *
+FROM `degrees`
+INNER JOIN departments
+ON departments.id = degrees.department_id
+WHERE departments.name LIKE '%neuroscienze%'
+
+
+SELECT *
+FROM `course_teacher` 
+INNER JOIN teachers
+ON teachers.id = course_teacher.teacher_id
+WHERE teachers.id = 44
+
+
+SELECT students.name, students.surname, degrees.name, departments.name
+FROM `students` 
+INNER JOIN degrees ON degrees.id = students.degree_id
+INNER JOIN departments ON departments.id = degrees.department_id  
+ORDER BY students.surname, students.name  DESC
+
+
+SELECT degrees.name, courses.name, teachers.name, teachers.surname
+FROM `courses` 
+INNER JOIN degrees ON degrees.id = courses.degree_id
+INNER JOIN course_teacher ON course_teacher.course_id = courses.id
+INNER JOIN teachers ON teachers.id = course_teacher.teacher_id
+
+
+
+SELECT distinct(teachers.name),departments.name
+FROM `teachers`
+INNER JOIN course_teacher on course_teacher.teacher_id=teachers.id
+INNER JOIN courses on courses.degree_id=course_teacher.course_id
+INNER JOIN degrees ON degrees.id = courses.degree_id
+INNER JOIN departments on departments.id=degrees.department_id
+where departments.name LIKE '%MATEMATICA%'
